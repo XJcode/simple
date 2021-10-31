@@ -1,14 +1,13 @@
 package com.xj.simple.generator;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
-import com.baomidou.mybatisplus.generator.fill.Column;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GeneratorApplication {
 
@@ -40,12 +39,25 @@ public class GeneratorApplication {
                             .controller("controller")
                             .pathInfo(Collections.singletonMap(OutputFile.mapperXml, System.getProperty("user.dir") + "/src/main/resources/mapper"));
                 })
+                // 注入配置
+//                .injectionConfig(builder -> {
+//
+//                })
+                // 注入模板
+                .templateConfig(builder -> {
+//                    builder.mapper("/templates/mapper.java.vm");
+                    builder.controller("/templates/controller.java.vm");
+                    builder.entity("/templates/entity.java.vm");
+                })
                 // 策略配置
                 .strategyConfig((scanner, builder) -> {
                     builder.addInclude(getTables(scanner.apply("请输入表名，多个英文逗号分隔？所有输入 all")))
                             // 控制器
                             .controllerBuilder().enableRestStyle().enableHyphenStyle()
-                            .entityBuilder().enableLombok()
+                            // 实体类(PO)
+                            .entityBuilder().enableLombok().enableChainModel()
+                            // mapper类
+                            .mapperBuilder().enableMapperAnnotation()
                             .build();
                 })
                 .execute();

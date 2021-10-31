@@ -3,8 +3,8 @@ package com.xj.simple.domain.po;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -14,8 +14,8 @@ import lombok.Setter;
  * @author xj
  * @since 2021-10-31
  */
-@Getter
-@Setter
+@Data
+@Accessors(chain = true)
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
